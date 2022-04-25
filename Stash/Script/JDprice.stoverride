@@ -9,7 +9,7 @@ http:
   script:
     - match: ^https?://api\.m\.jd\.com/client\.action\?functionId=(wareBusiness|serverConfig|basicConfig)
       name: jdprice
-      type: request
+      type: response
       require-body: true
       timeout: 10
       
