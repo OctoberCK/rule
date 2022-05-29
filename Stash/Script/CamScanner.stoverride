@@ -1,4 +1,4 @@
-name: 扫描全能王
+name: 💠扫描全能王
 desc: 解锁扫描全能王会员
 
 http:
@@ -14,4 +14,4 @@ http:
 script-providers:
   camscanner:
     url: https://raw.githubusercontent.com/id77/QuantumultX/master/Script/camscanner.js
-    interval: 3600
+    interval: 86400

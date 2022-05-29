@@ -1,4 +1,4 @@
-name: 百度搜索防跳转
+name: 💠百度搜索防跳转
 desc: 防止在网页版百度搜索结果中点击关键词时跳转AppStore
 
 http:
@@ -14,3 +14,4 @@ http:
 script-providers:
   Baidu:
     url: https://raw.githubusercontent.com/app2smile/rules/master/js/baidu-no-redirect.js
+    interval: 86400

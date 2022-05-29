@@ -8,15 +8,17 @@ log-level: info
 ipv6: true
 external-controller: 127.0.0.1:9090
 
-proxy-providers:
+subscribe-url: 你的订阅链接
+#替换上面文字用于Stash获取机场流量信息并在主页显示(Stash1.6.1 build287+支持)
 
+proxy-providers:
   #全部节点
   All: &All #建立锚点
     type: http
     url: "https://api.v1.mk/sub?target=clash&url=你的订阅链接&list=true&udp=true"
-    # 可以使用任意类型的链接替换上面文字，多个链接使用英文符号的竖杠|隔开一起写上即可；
-    # 或者将Clash订阅链接替换掉整个引号""内的链接
-    interval: 3600
+    # 可以使用任意类型的链接仅替换上面文字，多个链接使用英文符号的竖杠|隔开一起写上即可；
+    # Sub-Store与Clash类型订阅链接替换掉整个引号""内的链接
+    interval: 86400
     path: ./all.yaml
     health-check:
       enable: true
@@ -80,6 +82,7 @@ proxy-groups:
       - All
     proxies:
       - 自动选择
+      - 故障转移
 
   - name: 自动选择
     type: url-test
@@ -88,96 +91,69 @@ proxy-groups:
        - All
     url: "http://www.gstatic.com/generate_204"
     interval: 300
+    
+  - name: 故障转移
+    type: fallback
+    icon: https://raw.githubusercontent.com/Koolson/Qure/master/IconSet/Color/Bypass.png
+    url: 'http://www.gstatic.com/generate_204'
+    interval: 300
+    use: 
+       - All
+       
+  - name: 国外网站
+    type: select
+    icon: https://raw.githubusercontent.com/Koolson/Qure/master/IconSet/Color/Global.png
+    proxies: &G
+      - 手动切换
+      - 自动选择
+      - 故障转移
+      - 香港节点
+      - 日本节点
+      - 美国节点
+      - 台湾节点
+
+  - name: 国内网站
+    type: select
+    icon: https://raw.githubusercontent.com/Koolson/Qure/master/IconSet/Color/China_Map.png
+    proxies: &C
+      - DIRECT
+      - 手动切换
+      - 自动选择
+      - 故障转移
+      - 香港节点
+      - 日本节点
+      - 美国节点
+      - 台湾节点
       
   - name: YouTube
     type: select
     icon: https://raw.githubusercontent.com/Koolson/Qure/master/IconSet/Color/YouTube.png
     proxies:
-      - 手动切换
-      - 自动选择
-      - 香港节点
-      - 日本节点
-      - 美国节点
-      - 台湾节点
-      - DIRECT
+      *G
 
   - name: NETFLIX
     type: select
     icon: https://raw.githubusercontent.com/Koolson/Qure/master/IconSet/Color/Netflix.png
     proxies:
-      - 手动切换
-      - 自动选择
-      - 香港节点
-      - 日本节点
-      - 美国节点
-      - 台湾节点
-      - DIRECT
+      *G
 
   - name: Disney+
     type: select
     icon: https://raw.githubusercontent.com/Orz-3/mini/master/Color/DisneyPlus.png
     proxies:
-      - 手动切换
-      - 自动选择
-      - 香港节点
-      - 日本节点
-      - 美国节点
-      - 台湾节点
-      - DIRECT
-
-  - name: 巴哈姆特
-    type: select
-    icon: https://raw.githubusercontent.com/Koolson/Qure/master/IconSet/Color/Bahamut.png
-    proxies:
-      - 台湾节点
-      - 香港节点
-      - 日本节点
-      - 美国节点
-      - 自动选择
-      - 手动切换
-      - DIRECT
-
-  - name: AdBlock
-    type: select
-    icon: https://raw.githubusercontent.com/Koolson/Qure/master/IconSet/Color/Advertising.png
-    proxies:
-      - REJECT
-
-  - name: 国外网站
-    type: select
-    icon: https://raw.githubusercontent.com/Koolson/Qure/master/IconSet/Color/Global.png
-    proxies:
-      - 手动切换
-      - 自动选择
-      - 香港节点
-      - 日本节点
-      - 美国节点
-      - 台湾节点
-      - DIRECT
+      *G
 
   - name: 苹果服务
     type: select
     icon: https://raw.githubusercontent.com/Koolson/Qure/master/IconSet/Color/Apple.png
     proxies:
-      - 手动切换
-      - 自动选择
-      - 香港节点
-      - 日本节点
-      - 美国节点
-      - 台湾节点
-      - DIRECT
+      *C
 
   - name: 微软服务
     type: select
     icon: https://raw.githubusercontent.com/Koolson/Qure/master/IconSet/Color/Microsoft.png
     proxies:
-      - 手动切换
-      - 自动选择
-      - 香港节点
-      - 日本节点
-      - 美国节点
-      - 台湾节点
-      - DIRECT
+      *G
 
   - name: 网易音乐
     type: select
@@ -189,81 +165,49 @@ proxy-groups:
     type: select
     icon: https://raw.githubusercontent.com/Koolson/Qure/master/IconSet/Color/bilibili_3.png
     proxies:
-      - DIRECT
-      - 自动选择
-      - 手动切换
-      - 香港节点
-      - 日本节点
-      - 美国节点
-      - 台湾节点
+      *C
 
   - name: 游戏平台
     type: select
     icon: https://raw.githubusercontent.com/Koolson/Qure/master/IconSet/Color/Game.png
     proxies:
-      - 手动切换
-      - 自动选择
-      - 香港节点
-      - 日本节点
-      - 美国节点
-      - 台湾节点
-      - DIRECT
+      *G
 
-  - name: 国内网站
+  - name: AdBlock
     type: select
-    icon: https://raw.githubusercontent.com/Koolson/Qure/master/IconSet/Color/China_Map.png
+    icon: https://raw.githubusercontent.com/Koolson/Qure/master/IconSet/Color/Advertising.png
     proxies:
-      - DIRECT
-      - 手动切换
-      - 自动选择
-      - 香港节点
-      - 日本节点
-      - 美国节点
-      - 台湾节点
-
+      - REJECT
+      
   - name: 漏网之鱼
     type: select
     icon: https://raw.githubusercontent.com/Koolson/Qure/master/IconSet/Color/Final.png
     proxies:
-      - 手动切换
-      - 自动选择
-      - 香港节点
-      - 日本节点
-      - 美国节点
-      - 台湾节点
-      - DIRECT
+      *G
 
   - name: 香港节点
     type: select
     icon: https://raw.githubusercontent.com/Koolson/Qure/master/IconSet/Color/Hong_Kong.png
     use:
       - HK
-    proxies:
-      - DIRECT
-
+      
   - name: 日本节点
     type: select
     icon: https://raw.githubusercontent.com/Koolson/Qure/master/IconSet/Color/Japan.png
     use:
       - JP
-    proxies:
-      - DIRECT
      
   - name: 台湾节点
     type: select
     icon: https://raw.githubusercontent.com/Koolson/Qure/master/IconSet/Color/Taiwan.png
     use:
       - TW
-    proxies:
-      - DIRECT
 
   - name: 美国节点
     type: select
     icon: https://raw.githubusercontent.com/Koolson/Qure/master/IconSet/Color/United_States.png
     use:
       - US
-    proxies:
-      - DIRECT
 
 rule-providers:
 
@@ -284,84 +228,70 @@ rule-providers:
   YouTube:
     type: http
     behavior: classical
-    url: "https://cdn.jsdelivr.net/gh/blackmatrix7/ios_rule_script@master/rule/Clash/YouTube/YouTube.yaml"
+    url: "https://ghproxy.com/https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/YouTube/YouTube.yaml"
     path: ./ruleset/YouTube.yaml
     interval: 86400
 
   Netflix:
     type: http
     behavior: classical
-    url: "https://cdn.jsdelivr.net/gh/blackmatrix7/ios_rule_script@master/rule/Clash/Netflix/Netflix.yaml"
+    url: "https://ghproxy.com/https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/Netflix/Netflix.yaml"
     path: ./ruleset/Netflix.yaml
     interval: 86400
 
   Disney:
     type: http
     behavior: classical
-    url: "https://cdn.jsdelivr.net/gh/blackmatrix7/ios_rule_script@master/rule/Clash/Disney/Disney.yaml"
+    url: "https://ghproxy.com/https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/Disney/Disney.yaml"
     path: ./ruleset/Disney.yaml
     interval: 86400
-
-  Bahamut:
-    type: http
-    behavior: classical
-    url: "https://cdn.jsdelivr.net/gh/blackmatrix7/ios_rule_script@master/rule/Clash/Bahamut/Bahamut.yaml"
-    path: ./ruleset/Bahamut.yaml
-    interval: 86400
-
+    
   Apple:
     type: http
     behavior: classical
-    url: "https://cdn.jsdelivr.net/gh/blackmatrix7/ios_rule_script@master/rule/Clash/Apple/Apple.yaml"
+    url: "https://ghproxy.com/https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/Apple/Apple.yaml"
     path: ./ruleset/Apple.yaml
     interval: 86400
 
   Microsoft:
     type: http
     behavior: classical
-    url: "https://cdn.jsdelivr.net/gh/blackmatrix7/ios_rule_script@master/rule/Clash/Microsoft/Microsoft.yaml"
+    url: "https://ghproxy.com/https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/Microsoft/Microsoft.yaml"
     path: ./ruleset/Microsoft.yaml
     interval: 86400
 
   NetEaseMusic:
     type: http
     behavior: classical
-    url: "https://cdn.jsdelivr.net/gh/blackmatrix7/ios_rule_script@master/rule/Clash/NetEaseMusic/NetEaseMusic.yaml"
+    url: "https://ghproxy.com/https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/NetEaseMusic/NetEaseMusic.yaml"
     path: ./ruleset/NetEaseMusic.yaml
     interval: 86400
 
   BiliBili:
     type: http
     behavior: classical
-    url: "https://cdn.jsdelivr.net/gh/blackmatrix7/ios_rule_script@master/rule/Clash/BiliBili/BiliBili.yaml"
+    url: "https://ghproxy.com/https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/BiliBili/BiliBili.yaml"
     path: ./ruleset/BiliBili.yaml
     interval: 86400
 
   Game:
     type: http
     behavior: classical
-    url: "https://cdn.jsdelivr.net/gh/blackmatrix7/ios_rule_script@master/rule/Clash/Game/Game.yaml"
+    url: "https://ghproxy.com/https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/Game/Game.yaml"
     path: ./ruleset/Game.yaml
     interval: 86400
 
   China:
     type: http
     behavior: classical
-    url: "https://cdn.jsdelivr.net/gh/blackmatrix7/ios_rule_script@master/rule/Clash/China/China.yaml"
+    url: "https://ghproxy.com/https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/China/China.yaml"
     path: ./ruleset/China.yaml
     interval: 86400
 
   Global:
     type: http
-    behavior: classical
-    url: "https://ghproxy.com/https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/Global/Global.yaml"
-    path: ./ruleset/Global.yaml
-    interval: 86400
-
-  Global-Domain:
-    type: http
     behavior: domain
-    url: "https://ghproxy.com/https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/Global/Global_Domain.yaml"
+    url: "https://ghproxy.com/https://raw.githubusercontent.com/Loyalsoldier/clash-rules/release/proxy.txt"
     path: ./ruleset/Global-Domain.yaml
     interval: 86400
 
@@ -378,14 +308,12 @@ rules:
   - RULE-SET,YouTube,YouTube
   - RULE-SET,Netflix,NETFLIX
   - RULE-SET,Disney,Disney+
-  - RULE-SET,Bahamut,巴哈姆特
   - RULE-SET,Apple,苹果服务
   - RULE-SET,Microsoft,微软服务
   - RULE-SET,NetEaseMusic,网易音乐
   - RULE-SET,BiliBili,哔哩哔哩
   - RULE-SET,Game,游戏平台
   - RULE-SET,Global,国外网站
-  - RULE-SET,Global-Domain,国外网站
   - RULE-SET,China,国内网站
   - RULE-SET,Lan,DIRECT
   - GEOIP,CN,国内网站

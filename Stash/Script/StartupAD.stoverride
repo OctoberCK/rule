@@ -1,4 +1,4 @@
-name: 开屏去广告
+name: 💠开屏去广告
 desc: 去除部分APP开屏广告，具体APP请直接进入链接查看
 
 http:
@@ -66,32 +66,32 @@ script-providers:
 # 嘀嗒出行
   dida:
     url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/script/startup/startup.js
-    interval: 3600
+    interval: 86400
 # Fa米家
   fami:
     url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/script/famijia/famijia_checkin.js
-    interval: 3600
+    interval: 86400
 # BiliBili
   biliAD:
     url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/script/bilibili/bilibili_plus.js
-    interval: 3600
+    interval: 86400
 # 美团外卖
   meituan:
     url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/script/startup/startup.js
-    interval: 3600
+    interval: 86400
 # 小爱音箱
   xiaoai:
     url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/script/startup/startup.js
-    interval: 3600
+    interval: 86400
 # 京东
   jingdong:
     url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/script/startup/startup.js
-    interval: 3600
+    interval: 86400
 # 联享家
   lxj:
     url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/script/startup/startup.js
-    interval: 3600
+    interval: 86400
 # 多点
   duodian:
     url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/script/startup/startup.js
-    interval: 3600
+    interval: 86400
